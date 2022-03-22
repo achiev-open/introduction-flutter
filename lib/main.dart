@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Cats fact',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: const Color(0xFF147067)
@@ -41,25 +42,45 @@ class Layout extends StatefulWidget {
 }
 
 class LayoutState extends State<Layout> {
-  int _selectedIndex = 0;
+  int _currentTab = 0;
   List<Widget> tabs = [FactPage(), LikedPage()];
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext ctx, BoxConstraints constraints) {
+        if (constraints.maxWidth > 600) {
+          return webLayout();
+        }
+        return mobileLayout();
+      },
+    );
+  }
+
+  Widget webLayout() {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cats fact"),
-      ),
-      body: tabs.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: (value) {
-          setState(() { _selectedIndex = value; });
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.lightbulb), label: "Fact"),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Saved"),
+        actions: [
+          TextButton(onPressed: () { setState(() { _currentTab = 0; }); }, child: Text("Fact", style: TextStyle(color: Colors.white))),
+          TextButton(onPressed: () { setState(() { _currentTab = 1; }); }, child: Text("Saved", style: TextStyle(color: Colors.white)))
         ],
+      ),
+      body: tabs[_currentTab],
+    );
+  }
+
+  Widget mobileLayout() {
+    return Scaffold(
+      appBar: AppBar(title: Text("Cats fact")),
+      body: tabs[_currentTab],
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentTab,
+          onTap: (value) { setState(() { _currentTab = value; }); },
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.lightbulb), label: "Fact"),
+            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Saved"),
+          ]
       ),
     );
   }

@@ -15,8 +15,9 @@ class FactPage extends StatelessWidget {
       context.read<FactProvider>().loadFact();
       return const Center(child: CircularProgressIndicator());
     }
+
     return Padding(
-      padding: const EdgeInsets.all(25),
+      padding: EdgeInsets.all(25),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -45,14 +46,14 @@ class FactPage extends StatelessWidget {
                 child: const Icon(Icons.favorite, color: Colors.white),
                 style: ElevatedButton.styleFrom(
                   shape: const CircleBorder(),
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   primary: Colors.green,
                 ),
               )
-            ]
+            ],
           )
         ],
-      )
+      ),
     );
   }
 }

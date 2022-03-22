@@ -12,23 +12,22 @@ class LikedPage extends StatelessWidget {
     List<FactModel> facts = Provider.of<FactProvider>(context, listen: true).likedFact;
 
     if (facts.isEmpty) {
-      return const Center(
-        child: Text("You haven't liked any fact"),
-      );
+      return Center(child: Text("You didn't like ant fact"));
     }
 
     return ListView.separated(
+      padding: EdgeInsets.symmetric(vertical: 25),
       itemBuilder: (BuildContext ctx, int index) {
         return ListTile(
           leading: Container(
             height: 60,
             width: 60,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(facts[index].picture),
-                  fit: BoxFit.cover,
-                ),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(facts[index].picture),
+                fit: BoxFit.cover,
               )
+            ),
           ),
           title: Text(facts[index].fact),
         );
